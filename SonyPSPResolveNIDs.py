@@ -178,7 +178,8 @@ def resolveExports(exports_addr, exports_end, nidDB, moduleInfo_name):
         # at stub_base, function NIDs come first, followed by variable NIDs
         #print module_name,"has", num_vars, "variables, and", num_funcs, "exported functions"
         # convert raw data to DWORDs to 'show' NIDs
-        createDwords(nids_base, num_nids)
+        # int(): createDwords() expects a Java int, but getUnsignedValue() returns a Java long (JLong)
+        createDwords(nids_base, int(num_nids))
         # convert raw data to pointers for vars & funcs
         for n in range(num_nids):
             applyData(currentProgram, PointerDataType(), stub_base.add(4 * n))
@@ -277,7 +278,8 @@ def resolveImports(imports_addr, imports_end, nidDB):
         #       We have yet to see variables in an import
         # num_nids = num_vars + num_funcs
         # convert raw data to DWORDs to 'show' NIDs
-        createDwords(nids_base, num_funcs)
+        # int(): createDwords() expects a Java int, but getUnsignedValue() returns a Java long (JLong)
+        createDwords(nids_base, int(num_funcs))
         # label the NIDs with the module name
         createLabel(nids_base, module_name+"_nids", True)
 
