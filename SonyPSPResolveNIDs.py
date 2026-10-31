@@ -22,12 +22,18 @@ from ghidra.program.model.scalar import Scalar
 from ghidra.app.cmd.function import DeleteFunctionCmd
 from ghidra.app.util.cparser.C import CParser
 from ghidra.app.util.opinion import ElfLoader
-from ghidra.app.util.bin.format.objectiveC.ObjectiveC1_Utilities import *
 from ghidra.program.model.data import TerminatedStringDataType
 import xml.etree.ElementTree as ET
 import os.path
 import sys
 import re
+
+def applyData(program, data_type, address):
+    try:
+        program.getListing().clearCodeUnits(address, address.add(data_type.getLength() - 1), False)
+        return program.getListing().createData(address, data_type)
+    except Exception:
+        pass
 
 def getNameForNID(nidDB, lib_name, nid):
     # fix for NIDs with missing leading 0's
