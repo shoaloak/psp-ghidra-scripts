@@ -247,7 +247,7 @@ def resolveImports(imports_addr, imports_end, nidDB):
             # update address
             addr = imports_addr.add(imports_offset)
         except ghidra.program.model.util.CodeUnitInsertionException as e:
-            print("Warning: Skipping address {addr} due to conflict: {e}")
+            print(f"Warning: Skipping address {addr} due to conflict: {e}")
 
     # iterate through array of library imports
     for module in modules:
